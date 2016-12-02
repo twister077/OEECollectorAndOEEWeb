@@ -1,0 +1,211 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+OEECollector
+</name>
+</assembly>
+<members>
+<member name="T:OEECollector.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:OEECollector.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:OEECollector.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_CountryDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_MachineDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_ModuleDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_ModuleTypeDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_PlantDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_PlantSubDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_RegDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_CountryRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_MachineRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_ModuleRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_ModuleTypeRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_PlantRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_PlantSubRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_RegRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_CountryRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_MachineRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_ModuleRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_ModuleTypeRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_PlantRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_PlantSubRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSet.tblOee_RegRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_CountryTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_MachineTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_ModuleTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_ModuleTypeTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_PlantTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_PlantSubTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.tblOee_RegTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.UpdateUpdatedRows(OEECollector.OeeSQLSettingsDataSet,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.UpdateInsertedRows(OEECollector.OeeSQLSettingsDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.UpdateDeletedRows(OEECollector.OeeSQLSettingsDataSet,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.UpdateAll(OEECollector.OeeSQLSettingsDataSet)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:OEECollector.OeeSQLSettingsDataSetTableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
+</members>
+</doc>

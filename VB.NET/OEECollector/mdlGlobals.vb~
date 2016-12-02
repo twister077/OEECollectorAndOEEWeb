@@ -1,0 +1,733 @@
+﻿Imports System
+Imports System.Diagnostics
+Imports System.Net.Sockets
+Imports System.Data
+Imports System.Data.SQLite
+Imports System.Data.SqlServerCe
+Imports System.Net
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Net.Security
+Imports System.Threading
+Imports System.IO
+
+Module mdlGlobals
+
+   Public gstrSqlLoginuser As String = Chr(115) & Chr(105) & Chr(110) & Chr(98) & Chr(97) & Chr(100) & Chr(95) & Chr(97) & Chr(112) & Chr(112) & Chr(108)
+   Public gstrSqlLoginPassword As String = Chr(56) & Chr(56) & Chr(84) & Chr(67) & Chr(51) & Chr(56) & Chr(83) & Chr(116) & Chr(49) & Chr(88)
+   Public gstrSqlitePassword As String = Chr(64) & Chr(107) & Chr(115) & Chr(105) & Chr(114) & Chr(97) & Chr(77) & Chr(55) & Chr(55)
+   Public gstrOEEWebserver As String = "https://pw164-a28nl:8000/OEEWeb"
+   Public gstrWorkstation As String
+   Public gstrSqlFileLocation As String = My.Application.Info.DirectoryPath & "\OEESQLSettings.sdf"
+   Public gstrSqlLiteLocation As String = My.Application.Info.DirectoryPath & "\dblocal.db"
+   Public gstrImagesLocation As String = My.Application.Info.DirectoryPath & "\Images\"
+   Public glblMachMain(4) As Label
+   Public gchaMachChartOEE(4) As System.Windows.Forms.DataVisualization.Charting.Chart
+   Public glblMachTop(4) As Label
+   Public glblMachMsg(4) As Label
+   Public gpicMachOEENorm(4) As PictureBox
+   Public gpicMachNotify(4) As PictureBox
+   Public gclrActivityColor(4) As System.Drawing.Color
+   Public garrMessageSystem(4) As MessageSystem
+
+   Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal process As IntPtr, ByVal minimumWorkingSetSize As Integer, ByVal maximumWorkingSetSize As Integer) As Integer
+
+
+   Public Structure MessageSystem
+
+      Dim strTitle As String
+      Dim strMessage As String
+      Dim intAction As Integer
+      Dim blnPromptedForUndef As Boolean
+
+   End Structure
+
+
+   Public Function gfblnEncrypt(ByVal strFile As String) As Boolean
+
+      Dim connCon As SQLiteConnection
+
+      connCon = New SQLiteConnection("Data Source=" & gstrSqlLiteLocation)
+      connCon.Open()
+      connCon.ChangePassword(gstrSqlitePassword)
+      connCon.Close()
+
+   End Function
+
+
+   Public Function gdtaSqlCeTable(ByVal strSqlQuery As String) As DataTable
+
+      'orig name = gdtaSqliteTable
+
+      Dim dtaTable As DataTable
+      Dim connCon As SQLiteConnection
+      Dim cmd As SQLiteCommand
+      Dim reader As SQLiteDataReader
+
+      dtaTable = New DataTable()
+
+      Try
+         connCon = New SQLiteConnection("Password=" & gstrSqlitePassword & ";Data Source=" & gstrSqlLiteLocation)
+         connCon.Open()
+         cmd = New SQLiteCommand(connCon)
+         cmd.CommandText = strSqlQuery
+         reader = cmd.ExecuteReader()
+         dtaTable.Load(reader)
+         reader.Close()
+         connCon.Close()
+      Catch ex As Exception
+         Dim strError As String
+         strError = ex.Message
+         gfblnWriteLog("Error trying to connect to SQLite database" & vbCrLf & ex.Message, 1)
+      End Try
+
+      Return dtaTable
+
+   End Function
+
+
+   Public Function gintSqlCeExecuteNonQuery(ByVal strSqlQuery As String) As Integer
+
+      'origname = gintSqliteExecuteNonQuery
+
+      Dim connCon As SQLiteConnection
+      Dim cmd As SQLiteCommand
+      Dim intRowsUpdated As Integer
+
+      Try
+         connCon = New SQLiteConnection("Password=" & gstrSqlitePassword & ";Data Source=" & gstrSqlLiteLocation)
+         connCon.Open()
+         cmd = New SQLiteCommand(connCon)
+         cmd.CommandText = strSqlQuery
+         intRowsUpdated = cmd.ExecuteNonQuery()
+         connCon.Close()
+      Catch ex As Exception
+         gfblnWriteLog("Error trying to connect to SQLite database" & vbCrLf & ex.Message, 1)
+      End Try
+
+      Return intRowsUpdated
+
+   End Function
+
+
+   Public Function gdtaSqlCeTable1(ByVal strSqlQuery As String) As DataTable
+
+      'origname = gdtaSqlCeTable
+
+      Dim connCon As New SqlCeConnection
+      Dim cmd As New SqlCeDataAdapter
+      Dim dtaTable As New DataTable()
+
+      Try
+         dtaTable.Clear()
+         connCon = New SqlCeConnection("Data Source=" & gstrSqlFileLocation)
+         cmd = New SqlCeDataAdapter(strSqlQuery, connCon)
+         cmd.Fill(dtaTable)
+         cmd = Nothing
+         'connCon.Close()
+      Catch ex As Exception
+         gfblnWriteLog("Error trying to connect to SQLCe database", 1)
+      End Try
+
+      Return dtaTable
+
+   End Function
+
+
+   Public Function gintSqlCeExecuteNonQuery1(ByVal strSqlQuery As String) As Integer
+
+      'origname = gintSqlCeExecuteNonQuery
+      Dim connCon As New SqlCeConnection
+      Dim cmd As SqlCeCommand
+      Dim intRowsUpdated As Integer
+
+      Try
+         connCon = New SqlCeConnection("Data Source=" & gstrSqlFileLocation)
+         cmd = New SqlCeCommand(strSqlQuery, connCon)
+
+         If connCon.State = ConnectionState.Closed Then connCon.Open()
+         intRowsUpdated = cmd.ExecuteNonQuery()
+         cmd = Nothing
+         'connCon.Close()
+      Catch ex As Exception
+         gfblnWriteLog("Error trying to connect to SQLCe database", 1)
+      End Try
+
+      Return intRowsUpdated
+
+   End Function
+
+   Public Sub gsGetRecordSet(ByRef strSqlQuery As String, ByRef rstRecordset As ADODB.Recordset)
+
+      Dim connCon As ADODB.Connection
+
+      Try
+         connCon = CreateObject("ADODB.Connection")
+
+         Call connCon.Open("Provider = sqloledb;Data Source=sql-sinbad-kdn;Initial Catalog=OEE;" & "User ID = " & gstrSqlLoginuser & ";" & "Password = " & gstrSqlLoginPassword & ";")
+         rstRecordset = New ADODB.Recordset
+         Call rstRecordset.Open(strSqlQuery, connCon, ADODB.CursorTypeEnum.adOpenKeyset, ADODB.LockTypeEnum.adLockOptimistic)
+         connCon = Nothing
+      Catch
+         gfblnWriteLog("Error trying to connect to SQL Server 'sql-sinbad-kdn'.", 1)
+      End Try
+
+   End Sub
+
+
+   Public Function gfconvertToADODB(ByRef tblDataTable As DataTable) As ADODB.Recordset
+
+      Dim strError As String
+
+      'gfconvertToADODB will be the recordet
+      gfconvertToADODB = Nothing
+
+      Try
+         Dim rstResult As New ADODB.Recordset
+         Dim resultFields As ADODB.Fields = rstResult.Fields
+         Dim col As DataColumn
+         Dim intI As Integer
+
+         rstResult.CursorLocation = ADODB.CursorLocationEnum.adUseClient
+
+         For Each col In tblDataTable.Columns
+            resultFields.Append(col.ColumnName, mfTranslateType(col.DataType), col.MaxLength, _
+                                IIf(col.AllowDBNull, _
+                                ADODB.FieldAttributeEnum.adFldIsNullable, vbNull))
+         Next
+
+         rstResult.Open()
+
+         For Each row As DataRow In tblDataTable.Rows
+
+            rstResult.AddNew(System.Reflection.Missing.Value, System.Reflection.Missing.Value)
+
+            For intI = 0 To tblDataTable.Columns.Count - 1
+               resultFields(intI).Value = row(intI)
+            Next
+         Next
+
+         Return (rstResult)
+         rstResult.Close()
+
+      Catch ex As Exception
+         strError = Err.Description
+      End Try
+
+   End Function
+
+
+   Private Function mfTranslateType(ByRef type As Type) As ADODB.DataTypeEnum
+
+      mfTranslateType = Nothing
+
+      Try
+         Select Case type.UnderlyingSystemType.ToString
+            Case "System.Boolean"
+               Return ADODB.DataTypeEnum.adBoolean
+            Case "System.Byte"
+               Return ADODB.DataTypeEnum.adUnsignedTinyInt
+            Case "System.Char"
+               Return ADODB.DataTypeEnum.adChar
+            Case "System.DateTime"
+               Return ADODB.DataTypeEnum.adDate
+            Case "System.Decimal"
+               Return ADODB.DataTypeEnum.adCurrency
+            Case "System.Double"
+               Return ADODB.DataTypeEnum.adDouble
+            Case "System.Decimal"
+               Return ADODB.DataTypeEnum.adDouble
+            Case "System.Int16"
+               Return ADODB.DataTypeEnum.adSmallInt
+            Case "System.Int32"
+               Return ADODB.DataTypeEnum.adInteger
+            Case "System.Int64"
+               Return ADODB.DataTypeEnum.adBigInt
+            Case "System.SByte"
+               Return ADODB.DataTypeEnum.adTinyInt
+            Case "System.Single"
+               Return ADODB.DataTypeEnum.adSingle
+            Case "System.UInt16"
+               Return ADODB.DataTypeEnum.adUnsignedSmallInt
+            Case "System.UInt32"
+               Return ADODB.DataTypeEnum.adUnsignedInt
+            Case "System.UInt64"
+               Return ADODB.DataTypeEnum.adUnsignedBigInt
+            Case "System.String"
+               'case default
+               Return ADODB.DataTypeEnum.adVarWChar
+         End Select
+      Catch ex As Exception
+         MsgBox(ex.Message)
+      End Try
+
+   End Function
+
+
+   Public Function gfToDate(ByVal datDate As DateTime) As DateTime
+
+      Try
+         gfToDate = Format(datDate, "yyyy-MM-dd HH:mm:ss")
+      Catch ex As Exception
+         gfToDate = Date.Now
+      End Try
+
+   End Function
+
+
+   Public Sub gsChangePanel(ByVal pnlPanel As Panel, ByVal strFormName As Form)
+
+      strFormName.TopLevel = False
+      strFormName.Show()
+
+      pnlPanel.Controls.Clear()
+      pnlPanel.Controls.Add(strFormName)
+
+   End Sub
+
+
+   Function gfblnControlExists(ByVal strControllName As String, ByVal cntParent As Control) As Boolean
+
+      gfblnControlExists = False
+      For Each cntElemement As Control In cntParent.Controls
+         If cntElemement.Name = strControllName Then
+            Return True
+            Exit For
+         End If
+      Next
+
+   End Function
+
+
+   Public Function gfstrDatToStr(ByVal datDate As Date) As String
+
+      Dim strMonth As String
+      Dim strDay As String
+      Dim strYear As String
+      Dim strHour As String
+      Dim strMinutes As String
+      Dim strSeconds As String
+
+      If datDate.Month.ToString.Length < 2 Then
+         strMonth = "0" & datDate.Month.ToString
+      Else
+         strMonth = datDate.Month.ToString
+      End If
+
+      If datDate.Day.ToString.Length < 2 Then
+         strDay = "0" & datDate.Day.ToString
+      Else
+         strDay = datDate.Day.ToString
+      End If
+
+      strYear = datDate.Year
+
+      If datDate.Hour.ToString.Length < 2 Then
+         strHour = "0" & datDate.Hour.ToString
+      Else
+         strHour = datDate.Hour.ToString
+      End If
+
+      If datDate.Minute.ToString.Length < 2 Then
+         strMinutes = "0" & datDate.Minute.ToString
+      Else
+         strMinutes = datDate.Minute.ToString
+      End If
+
+      If datDate.Second.ToString.Length < 2 Then
+         strSeconds = "0" & datDate.Second.ToString
+      Else
+         strSeconds = datDate.Second.ToString
+      End If
+
+      'gfstrDatToStr = strMonth & "/" & strDay & "/" & Now.Year & " " & strHour & ":" & strMinutes & ":" & strSeconds
+      gfstrDatToStr = Now.Year & "-" & strMonth & "-" & strDay & " " & strHour & ":" & strMinutes & ":" & strSeconds
+
+   End Function
+
+
+   Public Function mfblnGarbageCleaner(ByVal strProcess As String) As Boolean
+
+      mfblnGarbageCleaner = False
+      Try
+         GC.Collect()
+         GC.WaitForPendingFinalizers()
+         If (Environment.OSVersion.Platform = PlatformID.Win32NT) Then
+            SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, -1, -1)
+            Dim Procs As Process() = Process.GetProcessesByName(strProcess)
+            Dim Proc As Process
+            For Each Proc In Procs
+               SetProcessWorkingSetSize(Proc.Handle, -1, -1)
+               mfblnGarbageCleaner = True
+            Next Proc
+         End If
+      Catch ex As Exception
+         mfblnGarbageCleaner = False
+      End Try
+
+   End Function
+
+
+   Public Function gfblnScheduledAlerts() As Boolean
+
+      Dim intTimeSpan As TimeSpan
+      Dim intMinutes As Integer
+
+      intTimeSpan = garrTeamShift.datEndShift.Subtract(Date.Now)
+      intMinutes = (intTimeSpan.Minutes + (intTimeSpan.Hours * 60))
+
+      If intMinutes <= 20 Then
+         If gblnGetAllUndefined() Then
+            If garrMessageSystem(0).blnPromptedForUndef = False Then
+               garrMessageSystem(0).blnPromptedForUndef = True
+               Try
+                  garrMessageSystem(0).strTitle = "Undefined activities"
+                  garrMessageSystem(0).strMessage = "Shift is almost over!" & vbCrLf & _
+                                                    "Please define the undefined activities."
+                  garrMessageSystem(0).intAction = 77
+                  gintSelectedMach = 0
+                  frmMessageBox.ShowDialog()
+                  frmMessageBox.lblTitle.Text = garrMessageSystem(0).strTitle
+                  frmMessageBox.lblMessage.Text = garrMessageSystem(0).strMessage
+                  frmMessageBox.Refresh()
+               Catch ex As Exception
+               End Try
+            End If
+         End If
+      Else
+         garrMessageSystem(0).blnPromptedForUndef = False
+      End If
+
+   End Function
+
+
+   Public Function gfblnWriteLog(ByVal strMessage As String, ByVal intEntryType As Integer) As Boolean
+
+      Dim strSource As String
+      Dim strLog As String
+      Dim strMachine As String
+      Dim evtLog As New EventLog
+
+      strSource = "OEECollector"
+      strLog = "Application"
+      strMachine = "."
+
+      evtLog = New EventLog(strLog, strMachine, strSource)
+
+      Select Case intEntryType
+         Case 1
+            evtLog.WriteEntry(strMessage, EventLogEntryType.Error, 234, CType(3, Short))
+         Case 2
+            evtLog.WriteEntry(strMessage, EventLogEntryType.Warning, 234, CType(3, Short))
+         Case 4
+            evtLog.WriteEntry(strMessage, EventLogEntryType.Information, 234, CType(3, Short))
+      End Select
+
+   End Function
+
+
+   Public Function gfblnCheckOpenTcpPort(ByVal strHost As String, ByVal intPort As Integer) As Boolean
+
+      Dim iasResult As IAsyncResult
+      Dim tcpClient As New TcpClient
+      Dim tmrConnect As System.Threading.WaitHandle
+      Dim blnTrowException As Boolean
+
+      blnTrowException = False
+      iasResult = tcpClient.BeginConnect(strHost, intPort, Nothing, Nothing)
+      tmrConnect = iasResult.AsyncWaitHandle
+
+      Try
+         If iasResult.AsyncWaitHandle.WaitOne(TimeSpan.FromMilliseconds(777)) = False Then
+            tcpClient.Close()
+            Throw New TimeoutException()
+         End If
+         tcpClient.EndConnect(iasResult)
+         blnTrowException = False
+      Catch ex As Exception
+         blnTrowException = True
+      Finally
+         tmrConnect.Close()
+      End Try
+
+      If blnTrowException Then
+         Throw New TimeoutException()
+      End If
+
+   End Function
+
+
+   Public Function gfblnGetDB(ByVal intSelMach As Integer) As Boolean
+
+      Dim client As New WebClient()
+      Dim intX As Integer
+      Dim strError As String
+
+      strError = ""
+
+      For intX = 1 To 10
+         Try
+            ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AddressOf customCertValidation)
+            client.DownloadFile(gstrOEEWebserver & "/default/dblocal.db?wsname=" & My.Computer.Name, _
+                                gstrSqlLiteLocation)
+            gfblnEncrypt(gstrSqlLiteLocation)
+            Return True
+            Exit Function
+         Catch ex As Exception
+            strError = ex.Message
+            gfblnGetDB = False
+         End Try
+         Thread.Sleep(1000)
+      Next
+
+      gfblnWriteLog("Error trying to connect to SQLite database" & vbCrLf & strError, 1)
+
+   End Function
+
+
+   Private Function customCertValidation(ByVal sender As Object, ByVal cert As X509Certificate, ByVal chain As X509Chain, ByVal errors As SslPolicyErrors) As Boolean
+
+      Return True
+
+   End Function
+
+
+   Public Function gfblnSync(ByVal intSelMach As Integer, ByVal intSync As Integer, ByVal intTableKeyID As Integer) As Boolean
+
+      'crud implementeren
+      'veld toevoegen, modified by user id, if userid is higher then local sync can't override field update and must update local record with remote record
+
+      'Less universal please, because field datemodified needs to be filtered on.
+
+      Dim strSqlQuery As String
+      Dim dtaTable As New DataTable()
+      Dim writer As System.IO.StreamWriter
+      Dim builder As New System.Text.StringBuilder
+      Dim strInitialSep As String = ""
+      Dim strSep As String = ","
+      Dim strFieldValue As String
+      Dim datDate As DateTime
+      Dim strKey As String
+      Dim strFilename As String
+      Dim intX As Integer
+      Dim intCount As Integer
+      Dim intRegNr As Integer
+
+      Select Case intSync
+         Case 1
+            'create csv for alle not synced data
+            intTableKeyID = 0
+            strFilename = "reg" & gfintGetRandom(1, 100) & ".csv"
+            writer = New System.IO.StreamWriter(My.Application.Info.DirectoryPath & "\" & strFilename)
+
+            strSqlQuery = "SELECT   * " & _
+                          "FROM     tblOee_Reg " & _
+                          "WHERE    fldOeeDateModified IS NULL OR fldOeeDateModified = '';"
+            dtaTable = gdtaSqlCeTable(strSqlQuery)
+
+            intCount = dtaTable.Rows.Count
+            If intCount > 0 Then
+               For Each col As DataColumn In dtaTable.Columns
+                  builder.Append(strInitialSep).Append(col.ColumnName.ToString)
+                  strInitialSep = strSep
+               Next
+               writer.WriteLine(builder.ToString())
+
+               intX = 0
+               For Each row As DataRow In dtaTable.Rows
+                  builder = New System.Text.StringBuilder
+                  strInitialSep = ""
+                  strKey = dtaTable.Columns(0).ColumnName
+
+                  For Each col As DataColumn In dtaTable.Columns
+                     If intTableKeyID = 0 Then
+                        intTableKeyID = row(col.ColumnName)
+                     End If
+                     strFieldValue = IIf(IsDBNull(row(col.ColumnName)), "", row(col.ColumnName))
+                     If Date.TryParse(strFieldValue, datDate) Then
+                        strFieldValue = gfstrDatToStr(datDate)
+                     End If
+
+                     'check for last record
+                     If col.ColumnName = "fldOeeDateModified" Then
+                        If intX + 1 = intCount Then
+                           'when last record then export, but don't update both datemodified 
+                           builder.Append(strInitialSep).Append("")
+                        Else
+                           builder.Append(strInitialSep).Append(gfstrDatToStr(Date.Now))
+                        End If
+                     Else
+                        builder.Append(strInitialSep).Append(strFieldValue)
+                     End If
+                     strInitialSep = strSep
+                  Next
+                  'update row
+                  If intX + 1 = intCount Then
+                     'don't update last record
+                  Else
+                     strSqlQuery = "UPDATE tblOee_Reg " & _
+                                   "SET    fldOeeDateModified = '" & gfstrDatToStr(Date.Now) & "' " & _
+                                   "WHERE (fldOeeRegTableKeyID = '" & intTableKeyID & "');"
+                     intTableKeyID = 0
+                     gintSqlCeExecuteNonQuery(strSqlQuery)
+                  End If
+                  writer.WriteLine(builder.ToString())
+                  intX = intX + 1
+               Next
+               If Not writer Is Nothing Then writer.Close()
+
+               gfblnCSVUpload(intSelMach, strFilename, 1, 0)
+            End If
+         Case 2
+            'create csv for defined undefined record
+            strFilename = "reg" & gfintGetRandom(1, 100) & ".csv"
+            writer = New System.IO.StreamWriter(My.Application.Info.DirectoryPath & "\" & strFilename)
+
+            strSqlQuery = "SELECT   * " & _
+                          "FROM     tblOee_Reg " & _
+                          "WHERE    fldOeeRegTableKeyID = '" & intTableKeyID & "';"
+            dtaTable = gdtaSqlCeTable(strSqlQuery)
+            intCount = dtaTable.Rows.Count
+
+            For Each col As DataColumn In dtaTable.Columns
+               builder.Append(strInitialSep).Append(col.ColumnName.ToString)
+               strInitialSep = strSep
+            Next
+            writer.WriteLine(builder.ToString())
+
+            For Each row As DataRow In dtaTable.Rows
+               builder = New System.Text.StringBuilder
+               strInitialSep = ""
+               For Each col As DataColumn In dtaTable.Columns
+                  If intTableKeyID = 0 Then
+                     intTableKeyID = row(col.ColumnName)
+                  End If
+                  strFieldValue = IIf(IsDBNull(row(col.ColumnName)), "", row(col.ColumnName))
+                  If col.ColumnName = "fldOeeRegNr" Then
+                     intRegNr = row(col.ColumnName)
+                  End If
+                  If Date.TryParse(strFieldValue, datDate) Then
+                     'if tablekeyid is hetzelfde, als laatste record dan niet datum wegschrijven, anders wel
+                     If intTableKeyID = gflngGetLastTableKeyId(intSelMach) Then
+                        builder.Append(strInitialSep).Append("")
+                     Else
+                        strFieldValue = gfstrDatToStr(datDate)
+                        builder.Append(strInitialSep).Append(strFieldValue)
+                     End If
+                  Else
+                     builder.Append(strInitialSep).Append(strFieldValue)
+                  End If
+                  strInitialSep = strSep
+               Next
+               writer.WriteLine(builder.ToString())
+            Next
+            If Not writer Is Nothing Then writer.Close()
+
+            If intTableKeyID = gflngGetLastTableKeyId(intSelMach) Then
+
+            Else
+               strSqlQuery = "UPDATE tblOee_Reg " & _
+                             "SET    fldOeeDateModified = '" & gfstrDatToStr(Date.Now) & "' " & _
+                             "WHERE (fldOeeRegTableKeyID = '" & intTableKeyID & "');"
+               intTableKeyID = 0
+               gintSqlCeExecuteNonQuery(strSqlQuery)
+            End If
+
+
+            gfblnCSVUpload(intSelMach, strFilename, 2, intRegNr)
+      End Select
+
+   End Function
+
+
+   Public Function gfblnCSVUpload(ByVal intSelMach As Integer, ByVal strFilename As String, ByVal intSync As Integer, ByVal intRegNr As Integer) As Boolean
+
+      Dim client2 As New WebClient()
+
+      'defining gaat goed, maar bij een nieuwe import wordt het niet de ene laatse verwijderd, dus dubbele entries.
+
+
+      Try
+         ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AddressOf customCertValidation)
+         client2.UploadFile(gstrOEEWebserver & "/default/api/post", strFilename)
+         'IO.File.Delete(My.Application.Info.DirectoryPath & "\" & strFilename)
+         Return True
+      Catch ex As Exception
+         gfblnWriteLog("Error trying to connect to SQLite database" & vbCrLf & ex.Message, 1)
+         Return False
+      End Try
+
+   End Function
+
+
+   Public Function gfblnCSVDownload(ByVal intSelMach As Integer) As Boolean
+
+      'testcode
+      garrMachine(intSelMach).intCountryNr = 1
+
+      Dim client As New WebClient()
+      Dim strError As String
+      Dim dtaDataTable As DataTable
+      Dim strText As String
+      Dim strCSV As String
+
+      Try
+         ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AddressOf customCertValidation)
+         strCSV = client.DownloadString(gstrOEEWebserver & _
+                             "/default/api.csv/get" & _
+                             "?machineid=" & garrMachine(intSelMach).intMachineNr & _
+                             "&countrynr=" & garrMachine(intSelMach).intCountryNr & _
+                             "&plantnr=" & garrMachine(intSelMach).intPlantNr & _
+                             "&subplantnr=" & garrMachine(intSelMach).intSubPlantNr & _
+                             "&departmentnr=" & garrMachine(intSelMach).intDepartmentNr)
+         dtaDataTable = gfdtaCsvStringToDatatable(strCSV, ",")
+         strText = dtaDataTable.Rows(0).Item(3)
+      Catch ex As Exception
+         strError = ex.Message
+      End Try
+
+   End Function
+
+
+   Public Function gfdtaCsvStringToDatatable(ByVal strCSVData As String, ByVal strSeparator As String) As DataTable
+
+      Dim dtaTable As New DataTable
+      Dim dtrDataRow As DataRow
+      Dim blnHeader As Boolean
+      Dim strColumn As String
+      Dim intX As Integer
+      Dim intY As Integer
+
+      blnHeader = True
+
+      Dim strRows() = strCSVData.Split({Environment.NewLine}, StringSplitOptions.None)
+
+      For intX = 0 To strRows(0).Split(strSeparator).Length - 1
+         strColumn = strRows(0).Split(strSeparator)(intX)
+         dtaTable.Columns.Add(If(blnHeader, strColumn, "column" & intX + 1))
+      Next
+
+      For intX = If(blnHeader, 1, 0) To strRows.Length - 1
+         dtrDataRow = dtaTable.NewRow
+         For intY = 0 To strRows(intX).Split(strSeparator).Length - 1
+            If intY <= dtaTable.Columns.Count - 1 Then
+               dtrDataRow(intY) = strRows(intX).Split(strSeparator)(intY)
+            Else
+               Throw New Exception("The number of columns on row " & intX + If(blnHeader, 0, 1) & _
+                                   " is greater than the amount of columns in the " & If(blnHeader, "header.", "first row."))
+            End If
+         Next
+         dtaTable.Rows.Add(dtrDataRow)
+      Next
+      Return dtaTable
+
+   End Function
+
+
+   Public Function gfintGetRandom(ByVal intMin As Integer, ByVal intMax As Integer) As Integer
+
+      Dim Generator As System.Random = New System.Random()
+      Return Generator.Next(intMin, intMax)
+
+   End Function
+
+End Module
