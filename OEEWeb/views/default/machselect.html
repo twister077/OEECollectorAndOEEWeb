@@ -1,0 +1,78 @@
+{{extend 'layout.html'}}
+<style type="text/css">
+.footer{
+    background-color: #F7F7F7;
+    color: #7D7D7D;
+}
+body{
+    background-image: url("{{=URL('static','images/background.png')}}");
+    background-size: cover;
+    color: #7D7D7D;
+
+}
+#content{
+    text-align:center;
+    width: 230px;
+}
+#machinebox{
+    cursor: pointer;
+    color: #7D7D7D;
+}
+</style>
+<script>
+        // get mouse move timeout and store in time var
+    var time = new Date().getTime();
+        $(document.body).bind("mousemove keypress", function(e) {
+            time = new Date().getTime();
+    });
+
+    // refresh
+    function refresh() {
+        if(new Date().getTime() - time >= 20000)
+            window.location.reload(true);
+        else
+            setTimeout(refresh, 2000);
+    }
+    setTimeout(refresh, 2000);
+</script>
+{{include 'oeemenubar.html'}}
+{{include 'optionbar.html'}}
+<table>
+    <tr>
+        {{intY = 0}}
+        {{for arrMachine in arrMachines:}}
+            {{if intY == 0:}}
+                <tr>
+            {{pass}}
+            {{if (intY == 5) or (intY == 10) or (intY == 15) or (intY == 20):}}
+                <tr style="height:20px; background-color: white;">
+                </tr>
+            {{pass}}
+                <td id="machinebox" onclick="location.href='machdetails?countrynr={{=gintCountryNr}}&plantnr={{=gintPlantNr}}&subplantnr={{=gintSubPlantNr}}&departmentnr={{=gintDepartmentNr}}&machineid={{=arrMachines[intY]['MachineNr']}}'" style="background-color: {{=arrMachines[intY]['MachineStatusColor']}};">
+                    <div id="content">
+                        <h3>
+                            {{=arrMachines[intY]['MachineCode']}} {{=arrMachines[intY]['MachineDescription']}}
+                        </h3>
+                    </div>
+                    <div id="content">
+                        <b>{{=arrMachines[intY]['ActivityGroup']}}</b>
+                    </div>
+                    <div id="content">
+                        {{=arrMachines[intY]['Activity']}}
+                    </div>
+                    <div id="content">
+                        <object data="oeegraph.svg?countrynr={{=gintCountryNr}}&plantnr={{=gintPlantNr}}&subplantnr={{=gintSubPlantNr}}&departmentnr={{=gintDepartmentNr}}&machineid={{=arrMachines[intY]['MachineNr']}}&fromdate={{=int(intFromSeconds)}}&todate={{=int(intToSeconds)}}" type="image/svg+xml" width="110px" height="77px">
+                            <img src="yourfallback.jpg" />
+                        </object>
+                    </div>
+                </td>
+                <td width = 28>
+                    <br>
+                </td>
+                {{intY+=1}}
+                {{pass}}
+            {{pass}}
+    </tr>
+    {{pass}}
+{{pass}}
+</table>

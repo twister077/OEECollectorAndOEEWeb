@@ -1,0 +1,68 @@
+{{extend 'layout.html'}}
+<style type="text/css">
+.footer{
+    background-color: #E7F3FF;
+    color: #7D7D7D;
+}
+body{
+    background-image: url("{{=URL('static','images/background.png')}}");
+    background-size: cover;
+    color: #7D7D7D;
+    }
+#box{
+    background-color: lightblue;
+    width: 230px;
+    height: 177px;
+    text-align:center;
+    cursor: pointer;
+    color: #7D7D7D;
+}
+#separator{
+    width: 28px;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    //get URL arguments bij vars
+    function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    $( document ).ready(function() {
+        //get screenwidth if no arguments are set
+        var intWidth = getParameterByName('screenwidth');
+        var intCountry = getParameterByName('countrynr');
+        if (intWidth == 0) {
+            window.location.replace("screenwidth?screenwidth=" + $(window).width());
+        }
+    });
+</script>
+{{include 'oeemenubar.html'}}
+{{include 'optionbar.html'}}
+<table>
+    {{intX = 0}}
+    {{for arrView in arrViews:}}
+        {{if intX == 0:}}
+            <tr>
+        {{pass}}
+        {{if (intX == 5) or (intX == 10) or (intX == 15) or (intX == 20):}}
+            <tr style="height:20px; background-color: white;">
+            </tr>
+        {{pass}}
+            <td id="box" onclick="location.href='{{=strLevelUrl + str(arrView.get('fldOee' + strLevel + 'Nr'))}}'">
+                <div id="content">
+                    <h3>
+                        {{=arrView.get('fldOee' + strLevel + 'Description')}}
+                    </h3>
+                </div>
+            </td>
+            <td id="separator">
+
+            </td>
+            {{intX+=1}}
+    {{pass}}
+    </tr>
+</table>

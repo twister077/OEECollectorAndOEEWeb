@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+<h2>
+    Color picker example
+</h2>
+{{=form}}
+<h3>
+    {{=form.vars.color}}
+</h3>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" type="text/javascript"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/jquery/20112/2045/js/combined/min/ig.ui.min.js" type="text/javascript"></script>
+<script src="http://cdn-na.infragistics.com/jquery/20112/2045/js/combined/min/ig.ui.combo.min.js" type="text/javascript"></script>
+<link href="http://cdn-na.infragistics.com/jquery/20112/2045/themes/min/ig/jquery.ui.custom.min.css" rel="stylesheet" type="text/css" />
+<link href="http://cdn-na.infragistics.com/jquery/20112/2045/themes/min/base/ig.ui.min.css" rel="stylesheet" type="text/css" />

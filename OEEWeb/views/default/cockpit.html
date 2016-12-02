@@ -1,0 +1,52 @@
+{{extend 'layout.html'}}
+<style type="text/css">
+    .footer{
+        background-color: #E7F3FF;
+        color: #7D7D7D;
+    }
+    body{
+        background-image: url("{{=URL('static','images/background.png')}}");
+        background-size: cover;
+        color: #7D7D7D;
+    }
+</style>
+<script>
+    // get mouse move timeout and store in time var
+    var time = new Date().getTime();
+        $(document.body).bind("mousemove keypress", function(e) {
+            time = new Date().getTime();
+    });
+
+    // refresh
+    function refresh() {
+        if(new Date().getTime() - time >= 20000)
+            window.location.reload(true);
+        else
+            setTimeout(refresh, 2000);
+    }
+    setTimeout(refresh, 2000);
+</script>
+{{include 'oeemenubar.html'}}
+{{include 'optionbar.html'}}
+<table style="width:100%">
+    {{intX = 0}}
+    {{for arrMachine in arrMachines:}}
+        <tr>
+            <td width="150px">
+                <b>{{=A(str(arrMachines[intX]['MachineCode']) + ' - ' +  arrMachines[intX]['MachineDescription'], _href='machdetails?countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr) + '&departmentnr=' + str(gintDepartmentNr) + '&machinenr=' + str(intX))}}</b>
+            </td>
+            <td width="30px">
+                {{=A(IMG(_src=URL('static','images/greendot.png'), _alt="Machine down"))}}
+            </td>
+            <td width="1050px">
+                <object data="tfhoursbar.svg?countrynr={{=gintCountryNr}}&plantnr={{=gintPlantNr}}&subplantnr={{=gintSubPlantNr}}&departmentnr={{=gintDepartmentNr}}&machineid={{=arrMachines[intX]['MachineID']}}&fromdate={{=int(intFromSeconds)}}&todate={{=int(intToSeconds)}}" type="image/svg+xml" width="100%" height="90px">
+                    <img src="yourfallback.jpg" />
+                </object>
+            </td>
+            <td width="150px">
+              <b>A{{=arrMachines[intX]['Availability']}}, P{{=arrMachines[intX]['Performance']}}, Q{{=arrMachines[intX]['Quality']}}, OEE{{=arrMachines[intX]['OEE']}}</b>
+            </td>
+        </tr>
+        {{intX+=1}}
+        {{pass}}
+</table>

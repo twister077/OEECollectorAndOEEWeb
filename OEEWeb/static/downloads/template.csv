@@ -1,0 +1,2 @@
+tblOee_Article.fldOeeArticleTableKeyID,tblOee_Article.fldOeeCountryID,tblOee_Article.fldOeePlantID,tblOee_Article.fldOeeSubPlantID,tblOee_Article.fldOeeDepartmentID,tblOee_Article.fldOeeArticleNr,tblOee_Article.fldOeeArticleDescription,tblOee_Article.fldOeeArticleInformation,tblOee_Article.fldOeeArticleNormSpeed,tblOee_Article.fldOeeArticleHistory,tblOee_Article.fldOeeDateModified,tblOee_Article.fldOeeSync
+1,1,1,1,1,110308H5,VULT 3G2.5, Halffabrikaat: mantelextrusie,70,False,2001-01-01 00:00:00,False

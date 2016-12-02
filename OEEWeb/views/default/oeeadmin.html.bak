@@ -1,0 +1,175 @@
+{{extend 'layout.html'}}
+<style type="text/css">
+.footer{
+    background-color: #E7F3FF;
+    color: #7D7D7D;
+}
+body{
+    background-image: url("{{=URL('static','images/background.png')}}");
+    background-size: cover;
+    color: #7D7D7D;
+}
+#space{
+    height: 14px;
+}
+</style>
+{{include 'oeemenubar.html'}}
+<table>
+    <tr>
+        {{if auth.user.fldOeeUserRightID <= 10:}}
+            <td>
+                <h5>
+                    Countries
+                </h5>
+                <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Country')}}'"/>
+            </td>
+            <td width=14px>
+            </td>
+            {{pass}}
+        {{if auth.user.fldOeeUserRightID <= 20:}}
+            <td>
+                <h5>
+                    Plants
+                </h5>
+                <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+            </td>
+            <td width=14px>
+            </td>
+            {{pass}}
+        {{if auth.user.fldOeeUserRightID <= 30:}}
+            <td>
+                <h5>
+                    Sub-Plants
+                </h5>
+                <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=SubPlant&countrynr=1&plantnr=1')}}'"/>
+            </td>
+            <td width=14px>
+            </td>
+            {{pass}}
+        <td>
+            <h5>
+                Departments
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+    </tr>
+</table>
+<hr>
+<table>
+    <tr>
+        <td>
+            <h5>
+                Activitygroups
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Activities
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Machine activities
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Machines
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='addmachines')}}'"/>
+        </td>
+    </tr>
+</table>
+<hr>
+<table>
+    <tr>
+        <td>
+            <h5>
+                Modules
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Module types
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Machine units
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Machine defaults
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+    </tr>
+</table>
+<hr>
+<table>
+    <tr>
+        <td>
+            <h5>
+                Shifts
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Teams
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Scheduler
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+    </tr>
+</table>
+<hr>
+<table>
+    <tr id="space">
+    </tr>
+    <tr>
+        <td>
+            <h5>
+                Articles
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+        <td width=14px>
+        </td>
+        <td>
+            <h5>
+                Orders
+            </h5>
+            <INPUT type="button" value="Edit" style="width:140px" onclick="location.href='{{=URL(r=request,f='add?level=Plant&countrynr=1')}}'"/>
+        </td>
+    </tr>
+</table>
+<hr>

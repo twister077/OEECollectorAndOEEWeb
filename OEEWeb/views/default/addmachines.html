@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+<style type="text/css">
+body{
+    background-image: url("{{=URL('static','images/background.png')}}");
+    background-size: cover;
+    color: #7D7D7D;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        var cmdAdd = document.getElementsByClassName("buttontext button");
+        cmdAdd[0].innerHTML = "Add Machine";
+    });
+</script>
+{{include 'oeemenubar.html'}}
+{{=form_machine}}

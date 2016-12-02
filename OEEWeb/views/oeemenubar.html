@@ -1,0 +1,61 @@
+<style>
+    #idToggle{
+        padding-top:10px;
+        padding-left:10px;
+        cursor: pointer;
+    }
+</style>
+<table style="width:100%">
+    <tr>
+        <td width=950px>
+            <h3>
+                {{if strLevel == 'Top':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}OEE Admin</b>
+                {{elif strLevel == 'Country':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}Country's {{=A(IMG(_src=URL('static/images','settings.png'), _alt="Home", _width='30px', _height='30px'), _href=URL('default','oeeadmin'))}}</b>
+                {{elif strLevel == 'Plant':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=strCountry}} {{=A(IMG(_src=URL('static/images','settings.png'), _alt="Home", _width='30px', _height='30px'), _href=URL('default','add?level=Plant&countrynr=' + str(gintCountryNr)))}}</b>
+                {{elif strLevel == 'SubPlant':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=strPlant}} {{=A(IMG(_src=URL('static/images','settings.png'), _alt="Home", _width='30px', _height='30px'), _href=URL('default','add?level=SubPlant&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr)))}}</b>
+                {{elif strLevel == 'Department':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strPlant, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=strSubPlant}} {{=A(IMG(_src=URL('static/images','settings.png'), _alt="Home", _width='30px', _height='30px'), _href=URL('default','add?level=Department&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr)))}}</b>
+                {{elif strLevel == 'Machine':}}
+                    {{if request.function == 'machdetails':}}
+                        <b>
+                            {{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strPlant, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strSubPlant, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strDepartment, _href='machselect?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr) + '&departmentnr=' + str(gintDepartmentNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=strMachine}}
+                        </b>
+                    {{else:}}
+                        <b>
+                            {{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strPlant, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strSubPlant, _href='index?screenwidth=' + str(intScreenWidth) + '&countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=strDepartment}}
+                        </b>
+                        {{pass}}
+                {{elif strLevel == 'Import':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}OEE Import Wizard {{=A(IMG(_src=URL('static/images','settings.png'), _alt="Home", _width='30px', _height='30px'), _href=URL('default','oeeadmin'))}}</b>
+                    {{pass}}
+                {{if request.function == 'add':}}
+                    <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index?screenwidth=' + str(intScreenWidth)))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=strLevel}} {{=A(IMG(_src=URL('static/images','settings.png'), _alt="Home", _width='30px', _height='30px'), _href=URL('default','oeeadmin'))}}</b>
+                    {{pass}}
+            </h3>
+        </td>
+        <td id="idToggle">
+            <b>
+                {{if request.function == 'machselect':}}
+                    {{=A("Toggle view", _href='cockpit?countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr) + '&departmentnr=' + str(gintDepartmentNr))}}
+                {{elif request.function == 'cockpit':}}
+                    {{=A("Toggle view", _href='machselect?countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr) + '&departmentnr=' + str(gintDepartmentNr) + '&screenwidth=1066')}}
+                {{elif request.function == 'machdetails':}}
+                    {{=A("Toggle view")}}
+                    {{pass}}
+
+            {{pass}}
+            </b>
+        </td>
+        <td>
+            <p align="right">
+              <ul class="nav navbar-nav navbar-right">
+                {{='auth' in globals() and auth.navbar('Welcome',mode='dropdown') or ''}}
+              </ul>
+            </p>
+        </td>
+    </tr>
+</table>

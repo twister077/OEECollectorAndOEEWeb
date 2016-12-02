@@ -1,0 +1,78 @@
+<script>
+    $( document ).ready(function() {
+        document.getElementById('idOptions').style.display = 'none';
+    });
+
+    function onOptions(id) {
+        if ( document.getElementById('idOptions').style.display !== "none" ) {
+            document.getElementById('idOptions').style.display = 'none';
+        }else{
+            document.getElementById('idOptions').style.display = 'inline';
+        }
+    }
+</script>
+<style>
+    label{
+        font-weight: 100;
+    }
+    #no_table_from_date{
+        width: 180px;
+    }
+    #no_table_to_date{
+        width: 180px;
+    }
+    #idCustom{
+        cursor: pointer;
+    }
+</style>
+<table width="100%">
+    <tr>
+        <td>
+            <b><a id=idCustom onclick="onOptions()">Options</a></b>
+        </td>
+    </tr>
+    <tr>
+        <td id=idOptions>
+            <table>
+                <tr>
+                    <hr>
+                    {{if request.function == 'cockpit':}}
+                        <td>
+                            <h4>Customize</h4>
+                        </td>
+                        <td width=56>
+                            <br>
+                        </td>
+                        {{pass}}
+                    {{if request.function == 'machselect':}}
+                        {{if arrMachines != []:}}
+                            <td>
+                                <h4>
+                                    Table view
+                                </h4>
+                            </td>
+                            {{pass}}
+                        {{pass}}
+                </tr>
+                <tr>
+                    {{if request.function == 'cockpit':}}
+                        <td>
+                            {{=form}}
+                        </td>
+                        <td width=56>
+                            <br>
+                        </td>
+                        {{pass}}
+                    {{if request.function == 'machselect':}}
+                        {{if arrMachines != []:}}
+                            <td valign="top">
+                                {{=formtable}}
+                            </td>
+                            {{pass}}
+                        {{pass}}
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<hr>

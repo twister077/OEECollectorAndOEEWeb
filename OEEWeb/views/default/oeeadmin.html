@@ -1,0 +1,339 @@
+{{extend 'layout.html'}}
+<script>
+    $(document).ready(function () {
+
+        var intView = getParameterByName('view');
+        var urlAdd = document.getElementsByClassName("button btn btn-default");
+
+        document.getElementById('idEditCountry').style.display = 'none';
+        document.getElementById('idAdd').style.display = 'none';
+        document.getElementById('idEditPlant').style.display = 'none';
+        document.getElementById('idEditSubPlant').style.display = 'none';
+        document.getElementById('idEditDepartment').style.display = 'none';
+
+        document.getElementById('idEditActivityGroups').style.display = 'none';
+        document.getElementById('idEditActivities').style.display = 'none';
+        document.getElementById('idEditMachineActivities').style.display = 'none';
+        document.getElementById('idEditMachines').style.display = 'none';
+
+        document.getElementById('idEditModules').style.display = 'none';
+        document.getElementById('idEditModuleTypes').style.display = 'none';
+        document.getElementById('idEditMachineUnits').style.display = 'none';
+        document.getElementById('idEditModuleSensorStyle').style.display = 'none';
+
+        document.getElementById('idEditShortbreaks').style.display = 'none';
+        document.getElementById('idEditUndefinedProduction').style.display = 'none';
+        document.getElementById('idEditUndefinedStandstill').style.display = 'none';
+        document.getElementById('idEditIOFailures').style.display = 'none';
+
+        document.getElementById('idEditUnscheduled').style.display = 'none';
+        document.getElementById('idEditShifts').style.display = 'none';
+        document.getElementById('idEditTeams').style.display = 'none';
+        document.getElementById('idEditScheduler').style.display = 'none';
+
+        document.getElementById('idEditArticles').style.display = 'none';
+        document.getElementById('idEditOrders').style.display = 'none';
+
+        if (intView) {
+            var strTitle;
+            if (strTitle == 'Back') {
+            } else {
+                urlAdd[0].href = "javascript:onAdd()";
+            }
+        }
+
+        if (intView == 1) {
+            document.getElementById('idEditCountry').style.display = 'inline';
+            setURL('add.html?level=Country')
+        } else if (intView == 2) {
+            document.getElementById('idEditPlant').style.display = 'inline';
+            setURL('add.html?level=Plant')
+        } else if (intView == 3) {
+            document.getElementById('idEditSubPlant').style.display = 'inline';
+            setURL('add.html?level=SubPlant')
+        } else if (intView == 4) {
+            document.getElementById('idEditDepartment').style.display = 'inline';
+            setURL('add.html?level=Department')
+        } else if (intView == 5) {
+            document.getElementById('idEditActivityGroups').style.display = 'inline';
+            setURL('add.html?level=ActivityGroup')
+        } else if (intView == 6) {
+            document.getElementById('idEditActivities').style.display = 'inline';
+            setURL('add.html?level=Activity')
+        } else if (intView == 7) {
+            document.getElementById('idEditMachineActivities').style.display = 'inline';
+            setURL('add.html?level=MachineActivity')
+        } else if (intView == 8) {
+            document.getElementById('idEditMachines').style.display = 'inline';
+            setURL('add.html?level=Machines')
+        } else if (intView == 9) {
+            document.getElementById('idEditShortbreaks').style.display = 'inline';
+            setURL('add.html?level=Shortbreaks')
+        } else if (intView == 10) {
+            document.getElementById('idEditUndefinedProduction').style.display = 'inline';
+            setURL('add.html?level=UndefinedProduction')
+        } else if (intView == 11) {
+            document.getElementById('idEditUndefinedStandstill').style.display = 'inline';
+            setURL('add.html?level=UndefinedStandstill')
+        } else if (intView == 12) {
+            document.getElementById('idEditIOFailures').style.display = 'inline';
+            setURL('add.html?level=IOFailures')
+        } else if (intView == 13) {
+            document.getElementById('idEditUnscheduled').style.display = 'inline';
+            setURL('add.html?level=Unscheduled')
+        } else if (intView == 14) {
+            document.getElementById('idEditModules').style.display = 'inline';
+            setURL('add.html?level=Modules')
+        } else if (intView == 15) {
+            document.getElementById('idEditModuleTypes').style.display = 'inline';
+        } else if (intView == 16) {
+            document.getElementById('idEditModuleSensorStyle').style.display = 'inline';
+        } else if (intView == 17) {
+            document.getElementById('idEditMachineUnits').style.display = 'inline';
+        } else if (intView == 18) {
+            document.getElementById('idEditShifts').style.display = 'inline';
+            setURL('add.html?level=Shifts')
+        } else if (intView == 19) {
+            document.getElementById('idEditTeams').style.display = 'inline';
+            setURL('add.html?level=Teams')
+        } else if (intView == 20) {
+            document.getElementById('idEditScheduler').style.display = 'inline';
+            setURL('add.html?level=Scheduler')
+        } else if (intView == 21) {
+            document.getElementById('idEditArticles').style.display = 'inline';
+            setURL('add.html?level=Articles')
+        } else if (intView == 22) {
+            document.getElementById('idEditOrders').style.display = 'inline';
+            setURL('add.html?level=Orders')
+        }
+
+        var cmdBack = document.getElementsByClassName("w2p-form-button btn btn-default");
+        cmdBack.onclick = function(){mfToTop};
+    });
+
+    function setURL(strUrl) {
+        document.getElementById('iframe').src = strUrl;
+    }
+
+    function onAdd() {
+        if (document.getElementById('idAdd').style.display !== "none") {
+            document.getElementById('idAdd').style.display = 'none';
+        } else {
+            document.getElementById('idAdd').style.display = 'table';
+            document.getElementById('idAdd').scrollIntoView();
+        }
+    }
+
+    //get URL arguments bij vars
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function mfToTop() {
+        document.getElementById('idToggle').scrollIntoView();
+    }
+
+</script>
+<style type="text/css">
+.footer{
+    background-color: #E7F3FF;
+    color: #7D7D7D;
+}
+body{
+    background-image: url("{{=URL('static','images/background.png')}}");
+    background-size: cover;
+    color: #7D7D7D;
+}
+#space{
+    height: 14px;
+}
+iframe{
+    border: 0px inset;
+    width: 100%;
+    min-width: 600px;
+    height: 100%;
+    min-height: 700px;
+}
+#idAdd{
+    width: 100%;
+    min-width: 600px;
+    height: 100%;
+    min-height: 700px;
+}
+</style>
+{{include 'oeemenubar.html'}}
+<table>
+    <tr>
+        <td>
+            {{if response.menu:}}
+                {{=MENU(response.menu, _class='nav navbar-nav',li_class='dropdown',ul_class='dropdown-menu')}}
+            {{pass}}
+        </td>
+    </tr>
+</table>
+<hr>
+<table id="idEditCountry">
+    <tr>
+        <td>
+            {{=form_country}}
+        </td>
+    </tr>
+</table>
+<table id="idEditPlant">
+    <tr>
+        <td>
+            {{=form_plant}}
+        </td>
+    </tr>
+</table>
+<table id="idEditSubPlant">
+    <tr>
+        <td>
+            {{=form_subplant}}
+        </td>
+    </tr>
+</table>
+<table id="idEditDepartment">
+    <tr>
+        <td>
+            {{=form_department}}
+        </td>
+    </tr>
+</table>
+<table id="idEditActivityGroups">
+    <tr>
+        <td>
+            {{=form_activitygroups}}
+        </td>
+    </tr>
+</table>
+<table id="idEditActivities">
+    <tr>
+        <td>
+            {{=form_activities}}
+        </td>
+    </tr>
+</table>
+<table id="idEditMachineActivities">
+    <tr>
+        <td>
+            {{=form_machineactivities}}
+        </td>
+    </tr>
+</table>
+<table id="idEditMachines">
+    <tr>
+        <td>
+            {{=form_machines}}
+        </td>
+    </tr>
+</table>
+<table id="idEditModules">
+    <tr>
+        <td>
+            {{=form_modules}}
+        </td>
+    </tr>
+</table>
+<table id="idEditModuleTypes">
+    <tr>
+        <td>
+            {{=form_moduletypes}}
+        </td>
+    </tr>
+</table>
+<table id="idEditMachineUnits">
+    <tr>
+        <td>
+            {{=form_machineunits}}
+        </td>
+    </tr>
+</table>
+<table id="idEditModuleSensorStyle">
+    <tr>
+        <td>
+            {{=form_modulesensorstyle}}
+        </td>
+    </tr>
+</table>
+<table id="idEditShortbreaks">
+    <tr>
+        <td>
+            {{=form_shortbreaks}}
+        </td>
+    </tr>
+</table>
+<table id="idEditUndefinedProduction">
+    <tr>
+        <td>
+            {{=form_undefinedproduction}}
+        </td>
+    </tr>
+</table>
+<table id="idEditUndefinedStandstill">
+    <tr>
+        <td>
+            {{=form_undefinedstandstill}}
+        </td>
+    </tr>
+</table>
+<table id="idEditIOFailures">
+    <tr>
+        <td>
+            {{=form_iofailures}}
+        </td>
+    </tr>
+</table>
+<table id="idEditUnscheduled">
+    <tr>
+        <td>
+            {{=form_unscheduled}}
+        </td>
+    </tr>
+</table>
+<table id="idEditShifts">
+    <tr>
+        <td>
+            {{=form_shifts}}
+        </td>
+    </tr>
+</table>
+<table id="idEditTeams">
+    <tr>
+        <td>
+            {{=form_teams}}
+        </td>
+    </tr>
+</table>
+<table id="idEditScheduler">
+    <tr>
+        <td>
+            {{=form_scheduler}}
+        </td>
+    </tr>
+</table>
+<table id="idEditArticles">
+    <tr>
+        <td>
+            {{=form_articles}}
+        </td>
+    </tr>
+</table>
+<table id="idEditOrders">
+    <tr>
+        <td>
+            {{=form_orders}}
+        </td>
+    </tr>
+</table>
+<hr>
+<table id="idAdd">
+    <tr>
+        <td>
+            {{=IFRAME(_id='iframe', _src='')}}
+        </td>
+    </tr>
+</table>

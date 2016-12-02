@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+<script>
+    $(document).ready(function () {
+
+    });
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<style>
+    th{
+        min-width: 100px;
+    }
+    label{
+        padding-top: 1px;
+    }
+</style>
+{{include 'oeemenubar.html'}}
+<b><center>Daterange: {{=datFrom}} - {{=datTo}}</center></b>
+{{=grid}}
+<br/>
+<button onclick="goBack()">Back</button>
+<br/>
+

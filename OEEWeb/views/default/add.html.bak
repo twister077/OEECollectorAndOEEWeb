@@ -1,0 +1,46 @@
+{{extend 'layout.html'}}
+<script>
+    $( document ).ready(function() {
+        // disable textfields at startup
+        {{if strLevel == 'Country':}}
+            document.getElementById('tblOee_Country_fldOeeCountryNr').disabled = true;
+        {{elif strLevel == 'Plant':}}
+            document.getElementById('tblOee_Plant_fldOeeCountryID').disabled = true;
+            document.getElementById('tblOee_Plant_fldOeePlantNr').disabled = true;
+        {{elif strLevel == 'SubPlant':}}
+            document.getElementById('tblOee_SubPlant_fldOeeCountryID').disabled = true;
+            document.getElementById('tblOee_SubPlant_fldOeePlantID').disabled = true;
+            document.getElementById('tblOee_SubPlant_fldOeeSubPlantNr').disabled = true;
+        {{elif strLevel == 'Department':}}
+            document.getElementById('tblOee_Department_fldOeeCountryID').disabled = true;
+            document.getElementById('tblOee_Department_fldOeePlantID').disabled = true;
+            document.getElementById('tblOee_Department_fldOeeSubPlantID').disabled = true;
+            document.getElementById('tblOee_Department_fldOeeDepartmentNr').disabled = true;
+        {{pass}}
+    });
+</script>
+<style type="text/css">
+.form-control{
+    width: 280px;
+}
+.footer{
+    background-color: #E7F3FF;
+    color: #7D7D7D;
+}
+body{
+    background-image: url("{{=URL('static','images/background.png')}}");
+    color: #7D7D7D;
+    }
+</style>
+<h3>
+    {{if strLevel == 'Country':}}
+        <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index'))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country's", _href='index')}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}Add</b>
+    {{elif strLevel == 'Plant':}}
+        <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index'))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href='index')}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}Add</b>
+    {{elif strLevel == 'SubPlant':}}
+        <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index'))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href='index')}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strPlant, _href='index?countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}Add</b>
+    {{elif strLevel == 'Department':}}
+        <b>{{=A(IMG(_src=URL('static/images','home-icon.png'), _alt="Home", _width='34px', _height='34px'), _href=URL('default','index'))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A("Country", _href='index')}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strCountry, _href='index?countrynr=' + str(gintCountryNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strPlant, _href='index?countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}{{=A(strSubPlant, _href='index?countrynr=' + str(gintCountryNr) + '&plantnr=' + str(gintPlantNr) + '&subplantnr=' + str(gintSubPlantNr))}}{{=A(IMG(_src=URL('static/images','arrow-right.png'), _alt="arrow", _width='34px', _height='34px'))}}Add</b>
+    {{pass}}
+</h3>
+{{=form}}

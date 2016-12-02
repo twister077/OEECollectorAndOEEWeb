@@ -1,0 +1,194 @@
+{{extend 'layout_iframe.html'}}
+<script>
+    $( document ).ready(function() {
+        // disable textfields at startup
+        //{{if strLevel == 'Country':}}
+        //    document.getElementById('tblOee_Country_fldOeeCountryNr').disabled = true;
+        //{{elif strLevel == 'Plant':}}
+        //    document.getElementById('tblOee_Plant_fldOeeCountryID').disabled = true;
+        //    document.getElementById('tblOee_Plant_fldOeePlantNr').disabled = true;
+        //{{elif strLevel == 'SubPlant':}}
+        //    document.getElementById('tblOee_SubPlant_fldOeeCountryID').disabled = true;
+        //    document.getElementById('tblOee_SubPlant_fldOeePlantID').disabled = true;
+        //    document.getElementById('tblOee_SubPlant_fldOeeSubPlantNr').disabled = true;
+        //{{elif strLevel == 'Department':}}
+        //   document.getElementById('tblOee_Department_fldOeeCountryID').disabled = true;
+        //   document.getElementById('tblOee_Department_fldOeePlantID').disabled = true;
+        //    document.getElementById('tblOee_Department_fldOeeSubPlantID').disabled = true;
+        //    document.getElementById('tblOee_Department_fldOeeDepartmentNr').disabled = true;
+        //{{pass}}
+
+        $('select[name="fldOeeCountryID"]').change(function () {
+            {{if strLevel == 'SubPlant':}}
+                var t = document.getElementById("tblOee_SubPlant_fldOeeCountryID");
+            {{elif strLevel == 'Department':}}
+                var t = document.getElementById("tblOee_Department_fldOeeCountryID");
+            {{elif strLevel == 'ActivityGroup':}}
+                var t = document.getElementById("tblOee_ActivityGroup_fldOeeCountryID");
+            {{elif strLevel == 'Activity':}}
+                var t = document.getElementById("tblOee_Activity_fldOeeCountryID");
+            {{elif strLevel == 'MachineActivity':}}
+                var t = document.getElementById("tblOee_MachineActivity_fldOeeCountryID");
+            {{elif strLevel == 'Machines':}}
+                var t = document.getElementById("tblOee_Machine_fldOeeCountryID");
+            {{elif strLevel == 'Shortbreaks':}}
+                var t = document.getElementById("tblOee_MachineShortbreak_fldOeeCountryID");
+            {{elif strLevel == 'UndefinedProduction':}}
+                var t = document.getElementById("tblOee_MachineUndefinedProduction_fldOeeCountryID");
+            {{elif strLevel == 'UndefinedStandstill':}}
+                var t = document.getElementById("tblOee_MachineUndefinedStandstill_fldOeeCountryID");
+            {{elif strLevel == 'IOFailures':}}
+                var t = document.getElementById("tblOee_MachineIOFailure_fldOeeCountryID");
+            {{elif strLevel == 'Unscheduled':}}
+                var t = document.getElementById("tblOee_MachineUnscheduled_fldOeeCountryID");
+            {{elif strLevel == 'Modules':}}
+                var t = document.getElementById("tblOee_Module_fldOeeCountryID");
+            {{elif strLevel == 'Shifts':}}
+                var t = document.getElementById("tblOee_ShiftTime_fldOeeCountryID");
+            {{elif strLevel == 'Teams':}}
+                var t = document.getElementById("tblOee_Team_fldOeeCountryID");
+            {{elif strLevel == 'Scheduler':}}
+                var t = document.getElementById("tblOee_DailySchedule_fldOeeCountryID");
+            {{elif strLevel == 'Articles':}}
+                var t = document.getElementById("tblOee_Article_fldOeeCountryID");
+            {{elif strLevel == 'Orders':}}
+                var t = document.getElementById("tblOee_Order_fldOeeCountryID");
+                {{pass}}
+            var selectedText = t.options[t.selectedIndex].value;
+            var strLevel = getParameterByName('level');
+            location.href = 'add?countrynr=' + selectedText + '&lvl=1&level=' + strLevel;
+        });
+
+        $('select[name="fldOeePlantID"]').change(function () {
+            {{if strLevel == 'Department':}}
+                var t = document.getElementById("tblOee_Department_fldOeePlantID");
+            {{elif strLevel == 'ActivityGroup':}}
+                var t = document.getElementById("tblOee_ActivityGroup_fldOeePlantID");
+            {{elif strLevel == 'Activity':}}
+                var t = document.getElementById("tblOee_Activity_fldOeePlantID");
+            {{elif strLevel == 'MachineActivity':}}
+                var t = document.getElementById("tblOee_MachineActivity_fldOeePlantID");
+            {{elif strLevel == 'Machines':}}
+                var t = document.getElementById("tblOee_Machine_fldOeePlantID");
+            {{elif strLevel == 'Shortbreaks':}}
+                var t = document.getElementById("tblOee_MachineShortbreak_fldOeePlantID");
+            {{elif strLevel == 'UndefinedProduction':}}
+                var t = document.getElementById("tblOee_MachineUndefinedProduction_fldOeePlantID");
+            {{elif strLevel == 'UndefinedStandstill':}}
+                var t = document.getElementById("tblOee_MachineUndefinedStandstill_fldOeePlantID");
+            {{elif strLevel == 'IOFailures':}}
+                var t = document.getElementById("tblOee_MachineIOFailure_fldOeePlantID");
+            {{elif strLevel == 'Unscheduled':}}
+                var t = document.getElementById("tblOee_MachineUnscheduled_fldOeePlantID");
+            {{elif strLevel == 'Modules':}}
+                var t = document.getElementById("tblOee_Module_fldOeePlantID");
+            {{elif strLevel == 'Shifts':}}
+                var t = document.getElementById("tblOee_ShiftTime_fldOeePlantID");
+            {{elif strLevel == 'Teams':}}
+                var t = document.getElementById("tblOee_Team_fldOeePlantID");
+            {{elif strLevel == 'Scheduler':}}
+                var t = document.getElementById("tblOee_DailySchedule_fldOeePlantID");
+            {{elif strLevel == 'Articles':}}
+                var t = document.getElementById("tblOee_Article_fldOeePlantID");
+            {{elif strLevel == 'Orders':}}
+                var t = document.getElementById("tblOee_Order_fldOeePlantID");
+            {{pass}}
+            var selectedText = t.options[t.selectedIndex].value;
+            var strLevel = getParameterByName('level');
+            location.href = 'add?countrynr=' + {{=gintCountryNr}} + '&plantnr=' + selectedText + '&lvl=2&level=' + strLevel;
+        });
+
+        $('select[name="fldOeeSubPlantID"]').change(function () {
+            {{if strLevel == 'ActivityGroup':}}
+                var t = document.getElementById("tblOee_ActivityGroup_fldOeeSubPlantID");
+            {{elif strLevel == 'Activity':}}
+                var t = document.getElementById("tblOee_Activity_fldOeeSubPlantID");
+            {{elif strLevel == 'MachineActivity':}}
+                var t = document.getElementById("tblOee_MachineActivity_fldOeeSubPlantID");
+            {{elif strLevel == 'Machines':}}
+                var t = document.getElementById("tblOee_Machine_fldOeeSubPlantID");
+            {{elif strLevel == 'Shortbreaks':}}
+                var t = document.getElementById("tblOee_MachineShortbreak_fldOeeSubPlantID");
+            {{elif strLevel == 'UndefinedProduction':}}
+                var t = document.getElementById("tblOee_MachineUndefinedProduction_fldOeeSubPlantID");
+            {{elif strLevel == 'UndefinedStandstill':}}
+                var t = document.getElementById("tblOee_MachineUndefinedStandstill_fldOeeSubPlantID");
+            {{elif strLevel == 'IOFailures':}}
+                var t = document.getElementById("tblOee_MachineIOFailure_fldOeeSubPlantID");
+            {{elif strLevel == 'Unscheduled':}}
+                var t = document.getElementById("tblOee_MachineUnscheduled_fldOeeSubPlantID");
+            {{elif strLevel == 'Modules':}}
+                var t = document.getElementById("tblOee_Module_fldOeeSubPlantID");
+            {{elif strLevel == 'Shifts':}}
+                var t = document.getElementById("tblOee_ShiftTime_fldOeeSubPlantID");
+            {{elif strLevel == 'Teams':}}
+                var t = document.getElementById("tblOee_Team_fldOeeSubPlantID");
+            {{elif strLevel == 'Scheduler':}}
+                var t = document.getElementById("tblOee_DailySchedule_fldOeeSubPlantID");
+            {{elif strLevel == 'Articles':}}
+                var t = document.getElementById("tblOee_Article_fldOeeSubPlantID");
+            {{elif strLevel == 'Orders':}}
+                var t = document.getElementById("tblOee_Order_fldOeeSubPlantID");
+            {{pass}}
+            var selectedText = t.options[t.selectedIndex].value;
+            var strLevel = getParameterByName('level');
+            location.href = 'add?countrynr=' + {{=gintCountryNr}} + '&plantnr=' + {{=gintPlantNr}} + '&subplantnr=' + selectedText + '&lvl=3&level=' + strLevel;
+        });
+
+        $('select[name="fldOeeDepartmentID"]').change(function () {
+            {{if strLevel == 'Activity':}}
+                var t = document.getElementById("tblOee_Activity_fldOeeDepartmentID");
+            {{elif strLevel == 'MachineActivity':}}
+                var t = document.getElementById("tblOee_MachineActivity_fldOeeDepartmentID");
+            {{elif strLevel == 'Machines':}}
+                var t = document.getElementById("tblOee_Machine_fldOeeDepartmentID");
+            {{elif strLevel == 'Modules':}}
+                var t = document.getElementById("tblOee_Module_fldOeeDepartmentID");
+            {{elif strLevel == 'Scheduler':}}
+                var t = document.getElementById("tblOee_DailySchedule_fldOeeDepartmentID");
+            {{elif strLevel == 'Orders':}}
+                var t = document.getElementById("tblOee_Order_fldOeeDepartmentID");
+            {{pass}}
+            var selectedText = t.options[t.selectedIndex].value;
+            var strLevel = getParameterByName('level');
+            location.href = 'add?countrynr=' + {{=gintCountryNr}} + '&plantnr=' + {{=gintPlantNr}} + '&subplantnr=' + {{=gintSubPlantNr}} + '&departmentnr=' + selectedText + '&lvl=4&level=' + strLevel;
+        });
+
+        $('select[name="fldOeeMachineID"]').change(function () {
+            {{if strLevel == 'MachineActivity':}}
+                var t = document.getElementById("tblOee_MachineActivity_fldOeeMachineID");
+                {{pass}}
+            var selectedText = t.options[t.selectedIndex].value;
+            var strLevel = getParameterByName('level');
+            location.href = 'add?countrynr=' + {{=gintCountryNr}} + '&plantnr=' + {{=gintPlantNr}} + '&subplantnr=' + {{=gintSubPlantNr}} + '&departmentnr=' + {{=gintDepartmentNr}} + '&machineid=' + selectedText + '&lvl=4&level=' + strLevel;
+        });
+
+    });
+
+    //get URL arguments bij vars
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+</script>
+<style type="text/css">
+.form-control{
+    width: 280px;
+}
+.footer{
+    background-color: #E7F3FF;
+    color: #7D7D7D;
+}
+body{
+    background:transparent;
+    background-size: cover;
+    color: #7D7D7D;
+    }
+</style>
+<h3 style="margin-left: 3cm;">
+    <b>Add new {{=strLevel}}</b>
+</h3>
+{{=form}}
+<b style="margin-left: 4cm;"><<-- scroll up to go to tableview -->></b>
