@@ -7,7 +7,8 @@
       Else
          ApplicationTitle.Text = System.IO.Path.GetFileNameWithoutExtension(My.Application.Info.AssemblyName)
       End If
-
+      
+      
       Version.Text = "Version: " & My.Application.Info.Version.ToString
       Copyright.Text = My.Application.Info.Copyright
 
